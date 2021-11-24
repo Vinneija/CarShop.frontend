@@ -8,22 +8,32 @@ namespace CarShop.Library
 {
     public class CarOperations : ICarOperations
     {
-        public List<Car> CarList = new();
+        public List<Car> Carlist = new();
 
         public void FindAvailableCarsCount()
         {
-            var count = CarList.Count(x => x is { IsAvailable: true });
+            var count = Carlist.Count(x => x != null && x.IsAvailable == true);
             UserOutput.FindAvailableCarMessage(count);
         }
 
         public Car[] FindCarByYear(int year)
         {
-            return CarList.Where(x => x != null && x.Year == year).ToArray();
+            int index = 0;
+            var carArray = new Car[100];
+            var carList = Carlist.Where(x => x != null && x.Year == year);
+
+            foreach (var car in carList)
+            {
+                carArray[index] = car;
+                index++;
+            }
+
+            return carArray;
         }
 
         public void ByCar(int id)
         {
-            var selectedCar = CarList.FirstOrDefault(x => x.Id == id);
+            var selectedCar = Carlist.FirstOrDefault(x => x.Id == id);
 
             if (selectedCar != null)
             {
@@ -60,31 +70,11 @@ namespace CarShop.Library
 
         public void AddCarToTheList(Car car)
         {
-            var id = 0;
-            var continues = true;
-
-            while (continues)
-            {
-                CarList.Add(car);
-
-                UserOutput.DoYouWantToAddMoreCarsMessage();
-
-                var yesNo = Console.ReadLine();
-
-                if (yesNo != "Yes")
-                {
-                    continues = false;
-                    UserOutput.ShowMenu();
-                }
-
-                id++;
-            }
+            Carlist.Add(car);
         }
 
-        public void GetCarByYear()
+        public void GetCarByYear(int year)
         {
-            UserOutput.ProvideYearMessage();
-            var year = Convert.ToInt32(Console.ReadLine());
             var carArray = FindCarByYear(year);
 
             foreach (var car in carArray)
@@ -97,7 +87,7 @@ namespace CarShop.Library
         {
             var i = 0;
 
-            foreach (var car in CarList)
+            foreach (var car in Carlist)
             {
                 if (car != null)
                 {
