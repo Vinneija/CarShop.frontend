@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CarShop.Library
 {
-    public class CarOperations : ICarOperations
+    public class CarFileOperations : ICarOperations
     {
         public List<Car> Carlist = new();
 
@@ -14,6 +14,11 @@ namespace CarShop.Library
         {
             var count = Carlist.Count(x => x != null && x.IsAvailable == true);
             UserOutput.FindAvailableCarMessage(count);
+        }
+
+        public void GetDataFormFile()
+        {
+            throw new NotImplementedException();
         }
 
         public Car[] FindCarByYear(int year)
